@@ -1,13 +1,11 @@
 let audioCtx = new AudioContext();
-let firstStart = true;
-let paused = false;
-let bufferSrcNode = null;
 const minRSSI = -90;
 const maxRSSI = -40;
 const minGain = 0.01;
 const maxGain = 1;
 const minFilter = 100;
 const maxFilter = 20000;
+const fadeTime = 1.0;
 
 let buffers = [
   {
@@ -99,7 +97,7 @@ export const updateBeacon = (obj) => {
   let beacon = buffers.find((b) => b.id == obj.id);
   if (beacon && beacon.gain) {
     // console.log("beacon",beacon, mapRSSItoGain(obj.rssi), obj.rssi)
-    beacon.gain.gain.value = mapRSSItoGain(obj.rssi);
-    beacon.filter.frequency.value = mapRSSItoFilter(obj.rssi);
+    beacon.gain.gain.exponentialRampToValueAtTime(mapRSSItoGain(obj.rssi),audioCtx.currentTime+fadeTime);
+    beacon.filter.frequency.exponentialRampToValueAtTime(mapRSSItoFilter(obj.rssi), audioCtx.currentTime+fadeTime);
   }
 }

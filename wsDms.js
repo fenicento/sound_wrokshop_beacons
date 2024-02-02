@@ -1,6 +1,6 @@
 import ReconnectingWebSocket from 'reconnecting-websocket';
 
-const DMS_WS_URL = 'ws://bcnsrv:5111/debug';
+const DMS_WS_URL = 'ws://10.3.3.72:5111/debug';
 
 export class wsDms {
   constructor(handler) {
@@ -23,7 +23,7 @@ export class wsDms {
     });
     this.ws.addEventListener('message', rawMsg => {
       const msg = JSON.parse(rawMsg.data);
-      // console.log("DMS message:", msg);
+      console.log("DMS message:", msg);
       switch(msg.type) {
         case 'beacon':
           // console.log("Device id is:", msg['minor'])
