@@ -1,4 +1,7 @@
 let audioCtx = new AudioContext();
+import WAAClock from "waaclock";
+import Arpeggiator from './arpeggiator.js'
+
 const minRSSI = -90;
 const maxRSSI = -40;
 const minGain = 0.01;
@@ -6,6 +9,9 @@ const maxGain = 1;
 const minFilter = 100;
 const maxFilter = 12000;
 const fadeTime = 1.0;
+
+let clock = new WAAClock(audioCtx, { toleranceEarly: 0.1 });
+let arp = new Arpeggiator(audioCtx, clock);
 
 let buffers = [
   {
@@ -41,7 +47,10 @@ const startEverything = async () => {
   console.log("start everytinhg");
   await audioCtx.resume();
   console.log("start loops");
+
   await startLoops();
+  clock.start();
+  // arp.start();
 }
 
 const startLoops = async () => {
@@ -74,7 +83,7 @@ const startLoops = async () => {
 
   //start the buffers at given time all together
   for(let buffer of buffers){
-    buffer.node.start(audioCtx.currentTime+1.0);
+    buffer.node.start(audioCtx.currentTime);
   }
 }
 

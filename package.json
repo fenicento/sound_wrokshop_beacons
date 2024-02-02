@@ -12,6 +12,7 @@
     "vite": "^5.0.8"
   },
   "dependencies": {
-    "reconnecting-websocket": "^4.4.0"
+    "reconnecting-websocket": "^4.4.0",
+    "waaclock": "^0.5.4"
   }
 }
