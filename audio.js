@@ -4,28 +4,28 @@ const maxRSSI = -40;
 const minGain = 0.01;
 const maxGain = 1;
 const minFilter = 100;
-const maxFilter = 20000;
+const maxFilter = 12000;
 const fadeTime = 1.0;
 
 let buffers = [
   {
-    url: "src/assets/sounds/Lantern_Ambiance01.mp4",
+    url: "src/assets/sounds/kick_40sec.ogg",
     id: "310_3",
   },
   {
-    url: "src/assets/sounds/ma_ambience_loop_rove_100_Cmaj.mp4",
+    url: "src/assets/sounds/Drums_40sec.ogg",
     id: "310_4",
   },
   {
-    url: "src/assets/sounds/aat_texture_loop_scape_128.mp4",
+    url: "src/assets/sounds/Bass_40sec.ogg",
     id: "310_7",
   },
   {
-    url: "src/assets/sounds/ai1_atmosphere_loop_factotum_60_C.mp4",
+    url: "src/assets/sounds/Pad_40sec.ogg",
     id: "310_9",
   },
   {
-    url: "src/assets/sounds/ma_ambience_loop_isolation_100_Cmaj.mp4",
+    url: "src/assets/sounds/Lead_40sec.ogg",
     id: "310_10"
   }
 ]

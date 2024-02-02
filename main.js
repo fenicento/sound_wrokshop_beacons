@@ -1,5 +1,5 @@
 import './style.css'
-import { init, updateBeacon } from './audio.js'
+import { initAudio, updateBeacon } from './audio.js'
 import javascriptLogo from './javascript.svg'
 import viteLogo from '/vite.svg'
 import { setupCounter } from './counter.js';
@@ -32,6 +32,6 @@ let ws = new wsDms(onBleScan);
 
 //call init on pressing the start button
 document.getElementById('start').addEventListener('click', async ()=>{
-  await init()
+  await initAudio()
 });
 
