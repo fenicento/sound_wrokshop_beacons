@@ -30,10 +30,10 @@ let buffers = [
     url: "src/assets/sounds/Pad_40sec.ogg",
     id: "310_9",
   },
-  {
-    url: "src/assets/sounds/Lead_40sec.ogg",
-    id: "310_10"
-  }
+  // {
+  //   url: "src/assets/sounds/Lead_40sec.ogg",
+  //   id: "310_10"
+  // }
 ]
 
 
@@ -50,7 +50,7 @@ const startEverything = async () => {
 
   await startLoops();
   clock.start();
-  // arp.start();
+  arp.start();
 }
 
 const startLoops = async () => {
