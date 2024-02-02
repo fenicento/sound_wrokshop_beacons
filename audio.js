@@ -5,11 +5,25 @@ let bufferSrcNode = null;
 
 let buffers = [
   {
-  url: "sounds/Lantern_Ambiance01.mp4",
+    url: "sounds/Lantern_Ambiance01.mp4",
+    id: "310_3",
   },
   {
-  url: "sounds/ma_ambience_loop_rove_100_Cmaj.mp4",
-}
+    url: "sounds/ma_ambience_loop_rove_100_Cmaj.mp4",
+    id: "310_4",
+  },
+  {
+    url: "sounds/aat_texture_loop_scape_128.mp4",
+    id: "310_7",
+  },
+  {
+    url: "sounds/ai1_atmosphere_loop_factotum_60_C.mp4",
+    id: "310_9",
+  },
+  {
+    url: "sounds/ma_ambience_loop_isolation_100_Cmaj.mp4",
+    id: "310_10"
+  }
 ]
 
 
@@ -19,14 +33,14 @@ const loadBuffer = (url) => {
     .then((buffer) => audioCtx.decodeAudioData(buffer));
 }
 
-const startEverything = async() => {
+const startEverything = async () => {
   console.log("start everytinhg");
   await audioCtx.resume();
   console.log("start loops");
   await startLoops();
 }
 
-const startLoops  = async () => {
+const startLoops = async () => {
   // Create
   for (let buffer of buffers) {
     console.log(buffer);
@@ -47,16 +61,20 @@ const startLoops  = async () => {
     gain.connect(filter);
     filter.connect(audioCtx.destination);
 
-    // Start
-    bufferSrcNode.start();
+    // Update the array
     buffer.node = bufferSrcNode;
     buffer.gain = gain;
     buffer.filter = filter;
   }
   console.log(buffers);
+
+  //start the buffers at given time all together
+  for(let buffer of buffers){
+    buffer.node.start(audioCtx.currentTime+1.0);
+  }
 }
 
-export const init = async() => {
+export const init = async () => {
   console.log("init");
   await startEverything();
   console.log("init over");
