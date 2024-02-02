@@ -1,0 +1,17 @@
+{
+  "name": "sound_wrokshop_beacons",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "vite": "^5.0.8"
+  },
+  "dependencies": {
+    "reconnecting-websocket": "^4.4.0"
+  }
+}
