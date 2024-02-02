@@ -82,9 +82,11 @@ const startLoops = async () => {
 
 const mapRSSItoGain = (rssi) => {
   let gain = ((rssi - minRSSI) / (maxRSSI - minRSSI)) * (maxGain - minGain) + minGain;
+  return gain
 }
 const mapRSSItoFilter = (rssi) => {
   let filter = ((rssi - minRSSI) / (maxRSSI - minRSSI)) * (maxFilter - minFilter) + minFilter;
+  return filter
 }
 
 export const init = async () => {
