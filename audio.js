@@ -2,6 +2,12 @@ let audioCtx = new AudioContext();
 let firstStart = true;
 let paused = false;
 let bufferSrcNode = null;
+const minRSSI = -40;
+const maxRSSI = -90;
+const minGain = 0.01;
+const maxGain = 1;
+const minFilter = 100;
+const maxFilter = 20000;
 
 let buffers = [
   {
@@ -74,8 +80,23 @@ const startLoops = async () => {
   }
 }
 
+const mapRSSItoGain = (rssi) => {
+  let gain = ((rssi - minRSSI) / (maxRSSI - minRSSI)) * (maxGain - minGain) + minGain;
+}
+const mapRSSItoFilter = (rssi) => {
+  let filter = ((rssi - minRSSI) / (maxRSSI - minRSSI)) * (maxFilter - minFilter) + minFilter;
+}
+
 export const init = async () => {
   console.log("init");
   await startEverything();
   console.log("init over");
+}
+
+export const updateBeacon = (obj) => {
+  let beacon = buffers.find((b) => b.id == obj.id);
+  if (beacon) {
+    beacon.gain.gain.value = mapRSSItoGain(obj.rssi);
+    beacon.filter.frequency.value = mapRSSItoFilter(obj.rssi);
+  }
 }
