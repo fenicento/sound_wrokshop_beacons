@@ -9,6 +9,9 @@ const maxGain = 1;
 const minFilter = 100;
 const maxFilter = 12000;
 const fadeTime = 1.0;
+const arpRates = [4,8,16,32];
+const RSSIRates = [-80,-60,-50];
+let arpRate = arpRates[0];
 
 let clock = new WAAClock(audioCtx, { toleranceEarly: 0.1 });
 let arp = new Arpeggiator(audioCtx, clock);
@@ -43,6 +46,14 @@ const loadBuffer = (url) => {
     .then((buffer) => audioCtx.decodeAudioData(buffer));
 }
 
+const startBuffers = () => {
+  for (let buffer of buffers) {
+   clock.callbackAtTime(()=>{
+    buffer.node.start()
+   }, audioCtx.currentTime); 
+  }
+}
+
 const startEverything = async () => {
   console.log("start everytinhg");
   await audioCtx.resume();
@@ -50,6 +61,7 @@ const startEverything = async () => {
 
   await startLoops();
   clock.start();
+  startBuffers();
   arp.start();
 }
 
@@ -82,9 +94,9 @@ const startLoops = async () => {
   console.log(buffers);
 
   //start the buffers at given time all together
-  for(let buffer of buffers){
-    buffer.node.start(audioCtx.currentTime);
-  }
+  //for(let buffer of buffers){
+  //  buffer.node.start(audioCtx.currentTime);
+  //}
 }
 
 const mapRSSItoGain = (rssi) => {
@@ -94,6 +106,23 @@ const mapRSSItoGain = (rssi) => {
 const mapRSSItoFilter = (rssi) => {
   let filter = ((rssi - minRSSI) / (maxRSSI - minRSSI)) * (maxFilter - minFilter) + minFilter;
   return filter
+}
+
+// mapping function that quantizes RSSI to arp rates
+const mapRSSItoArpRate = (rssi) => {
+
+  if (rssi <= RSSIRates[0]) {
+    return arpRates[0]
+  }
+  else if (rssi <= RSSIRates[1]) {
+    return arpRates[1]
+  }
+  else if (rssi <= RSSIRates[2]) {
+    return arpRates[2]
+  }
+  else {
+    return arpRates[3]
+  }
 }
 
 export const initAudio = async () => {
@@ -109,4 +138,8 @@ export const updateBeacon = (obj) => {
     beacon.gain.gain.exponentialRampToValueAtTime(mapRSSItoGain(obj.rssi),audioCtx.currentTime+fadeTime);
     beacon.filter.frequency.exponentialRampToValueAtTime(mapRSSItoFilter(obj.rssi), audioCtx.currentTime+fadeTime);
   }
+  if(obj.id == "310_9"){
+    arpRate = mapRSSItoArpRate(obj.rssi);
+  }
+
 }
